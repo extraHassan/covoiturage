@@ -1,7 +1,8 @@
 package org.web.extraHassan.maroc.covoiturage.models;
 
 import javax.persistence.*;
-import java.util.Vector;
+import java.util.Set;
+
 @Entity
 public class Role {
     @Id
@@ -10,8 +11,8 @@ public class Role {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Vector<User> users;
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
 
     public Role() {
         System.out.println("Role created..");
@@ -37,11 +38,11 @@ public class Role {
         this.name = name;
     }
 
-    public Vector<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Vector<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 }

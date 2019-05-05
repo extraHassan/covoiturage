@@ -3,7 +3,6 @@ package org.web.extraHassan.maroc.covoiturage.models;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-
 @Entity
 public class Comment {
     @Id

@@ -1,10 +1,10 @@
 package org.web.extraHassan.maroc.covoiturage.models;
 
-import org.web.extraHassan.maroc.covoiturage.models.enums.City;
+
+import org.web.extraHassan.maroc.covoiturage.models.embeddables.Identity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.Vector;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -13,33 +13,30 @@ public class User {
     private Long id;
 
     private boolean active;//if he is banned or not
-    private String fullName;
-    private LocalDate birthday;
-    private String cne;
-    private String mail;
-    private String tel;
-    private String picture;
-    private String slogan; //intro to its profile
 
-    @Enumerated(EnumType.STRING)
-    private City city;
+    @Embedded
+    private Identity identity;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private Vector<Avis> avis;
+    private Set<Avis> avis;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id")
+    )
+    private Set<Role> roles; //admin, publisher, driver, traveler
 
     @OneToMany(fetch = FetchType.LAZY)
-    private Vector<Role> roles; //admin, publisher, driver, traveler
+    private Set<Publication> publications;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private Vector<Publication> publications;
+    private Set<Comment> comments;
+
 
     public User(){
         System.out.println("user created..");
-    }
-
-    public User(Long id, String fullName) {
-        this.id = id;
-        this.fullName = fullName;
     }
 
     public Long getId() {
@@ -58,91 +55,43 @@ public class User {
         this.active = active;
     }
 
-    public String getFullName() {
-        return fullName;
+    public Identity getIdentity() {
+        return identity;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setIdentity(Identity identity) {
+        this.identity = identity;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getCne() {
-        return cne;
-    }
-
-    public void setCne(String cne) {
-        this.cne = cne;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public String getSlogan() {
-        return slogan;
-    }
-
-    public void setSlogan(String slogan) {
-        this.slogan = slogan;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public Vector<Avis> getAvis() {
+    public Set<Avis> getAvis() {
         return avis;
     }
 
-    public void setAvis(Vector<Avis> avis) {
+    public void setAvis(Set<Avis> avis) {
         this.avis = avis;
     }
 
-    public Vector<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Vector<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    public Vector<Publication> getPublications() {
+    public Set<Publication> getPublications() {
         return publications;
     }
 
-    public void setPublications(Vector<Publication> publications) {
+    public void setPublications(Set<Publication> publications) {
         this.publications = publications;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 }

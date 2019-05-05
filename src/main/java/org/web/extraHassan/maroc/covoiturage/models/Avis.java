@@ -3,6 +3,8 @@ package org.web.extraHassan.maroc.covoiturage.models;
 import org.web.extraHassan.maroc.covoiturage.models.enums.Note;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Entity
 public class Avis {
@@ -14,15 +16,23 @@ public class Avis {
     @JoinColumn(name = "CODE_USER")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "CODE_COMMENT")
-    private Comment comment;
+    @Size(max = 300)
+    private String text;
 
     @Enumerated(value = EnumType.STRING)
     private Note note;
 
+    private LocalDateTime dateTime;
+
     public Avis() {
         System.out.println("Avis created");
+        dateTime=LocalDateTime.now();
+    }
+
+    public Avis(String text, Note note) {
+        dateTime=LocalDateTime.now();
+        this.text = text;
+        this.note = note;
     }
 
     public Long getId() {
@@ -41,12 +51,13 @@ public class Avis {
         this.user = user;
     }
 
-    public Comment getComment() {
-        return comment;
+
+    public String getText() {
+        return text;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Note getNote() {
@@ -55,5 +66,13 @@ public class Avis {
 
     public void setNote(Note note) {
         this.note = note;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 }

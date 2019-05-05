@@ -1,5 +1,6 @@
 package org.web.extraHassan.maroc.covoiturage.models;
 
+import org.web.extraHassan.maroc.covoiturage.models.embeddables.Car;
 import org.web.extraHassan.maroc.covoiturage.models.enums.Baggage;
 import org.web.extraHassan.maroc.covoiturage.models.enums.PublicationType;
 import org.web.extraHassan.maroc.covoiturage.models.enums.PeopleCategory;
@@ -24,9 +25,9 @@ public class Offer extends Publication {
     @JoinColumn(name = "CODE_PATH")
     private Path path;
 
-    @ManyToOne
-    @JoinColumn(name = "CODE_CAR")
+    @Embedded
     private Car car;
+
     @Enumerated(EnumType.STRING)
     private PeopleCategory peopleCategory;
 
